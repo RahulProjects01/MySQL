@@ -1,0 +1,96 @@
+
+Q.1.Show all details (yr, subject, winner) of the literature prize winners for 1980 to 1989 inclusive.
+
+Ans.select * from nobel where subject ='literature' and yr between 1980 and 1989.
+
+-------------------------------------------------------------------------------------------------------------------------------------------
+Q.2.Show all details of the presidential winners:
+Theodore Roosevelt
+Thomas Woodrow Wilson
+Jimmy Carter
+Barack Obama
+
+Ans.SELECT *
+FROM nobel WHERE winner IN ('Theodore Roosevelt', 'Woodrow Wilson', 'Jed Bartlet','Jimmy Carter')
+
+-------------------------------------------------------------------------------------------------------------------------------------------
+Q.3.Show the winners with first name John.
+
+Ans.select winner from nobel where winner like'john%'
+
+-------------------------------------------------------------------------------------------------------------------------------------------
+Q.4.Show the year, subject, and name of physics winners for 1980 together with the chemistry winners for 1984.
+
+Ans.SELECT DISTINCT p.yr
+FROM nobel p WHERE p.subject = 'Physics'
+AND p.yr NOT IN
+(
+  SELECT c.yr
+  FROM nobel c
+  WHERE c.subject = 'Chemistry'
+)
+
+--------------------------------------------------------------------------------------------------------------------------------------------
+Q.5.Show the year, subject, and name of winners for 1980 excluding chemistry and medicine
+
+Ans.SELECT *
+FROM nobel
+WHERE yr = 1980 AND subject NOT IN ('Chemistry', 'Medicine')
+
+-------------------------------------------------------------------------------------------------------------------------------------------
+Q.6.Show year, subject, and name of people who won a 'Medicine' prize in an early 
+year (before 1910, not including 1910) together with winners of a 'Literature' 
+prize in a later year (after 2004, including 2004)	
+
+Ans.Show year, subject, and name of people who won a 'Medicine' 
+prize in an early year (before 1910, not including 1910) 
+together with winners of a 'Literature' prize in a later year (after 2004, including 2004)
+
+-------------------------------------------------------------------------------------------------------------------------------------------
+Q.7.Find all details of the prize won by PETER GRÜNBERG
+
+Ans.SELECT * from nobel where winner like 'PETER GRÜNBERG'
+
+--------------------------------------------------------------------------------------------------------------------------------------------
+Q.8.Find all details of the prize won by EUGENE O'NEILL.
+
+Ans.select * from nobel where winner like 'EUGENE O''NEILL'
+
+--------------------------------------------------------------------------------------------------------------------------------------------
+Q.9.Knights in order List the winners, year and subject where the winner starts with Sir. 
+Show the the most recent first, then by name order.
+
+Ans.SELECT winner, yr, subject
+FROM nobel
+WHERE winner LIKE 'sir%'
+ORDER BY yr DESC, winner
+
+-------------------------------------------------------------------------------------------------------------------------------------------
+Q.10.The expression subject IN ('chemistry','physics') can be used as a value - it will be 0 or 1.
+Show the 1984 winners and subject ordered by subject and winner name; but list chemistry and physics last.
+
+Ans.SELECT winner, subject
+FROM nobel
+WHERE yr=1984
+ORDER BY subject IN ('Physics','Chemistry'),subject,winner
+
+---------------------------------------------------------------------------------------------------------------------------------------------
+11.Q.List each country name where the population is larger than that of 'Russia'.
+
+Ans.SELECT name FROM world
+  WHERE population >
+     (SELECT population FROM world
+      WHERE name='Russia')
+
+--------------------------------------------------------------------------------------------------------------------------------------------
+12.Q.Show the countries in Europe with a per capita GDP greater than 'United Kingdom'.
+
+Ans.SELECT name
+FROM world
+WHERE continent = 'Europe'
+AND gdp/population > (
+  SELECT gdp/population
+  FROM world
+  WHERE name = 'United Kingdom');
+
+-------------------------------------------------------------------------------------------------------------------------------------------
