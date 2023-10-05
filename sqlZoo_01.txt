@@ -1,0 +1,154 @@
+
+Q.1.The example uses a WHERE clause to show the population of 'France'. Note that strings should be in 'single quotes';
+Modify it to show the population of Germany'
+
+Ans.SELECT population FROM world
+  WHERE name = 'Germany'
+
+---------------------------------------------------------------------------------------------------------------------------------------
+Q.2.Checking a list The word IN allows us to check if an item is in a list. The example shows the name and population for the countries 
+'Brazil', 'Russia', 'India' and 'China'. Show the name and the population for 'Sweden', 'Norway' and 'Denmark'.
+
+Ans.SELECT name, population FROM world
+  WHERE name IN ('sweden','norway','denmark');
+
+---------------------------------------------------------------------------------------------------------------------------------------
+Q.3.Which countries are not too small and not too big? BETWEEN allows range checking (range specified is inclusive of boundary values). 
+The example below shows countries with an area of 250,000-300,000 sq. km. 
+Modify it to show the country and the area for countries with an area between 200,000 and 250,000.
+
+Ans.SELECT name, area FROM world
+  WHERE area BETWEEN 200000 AND 250000
+
+---------------------------------------------------------------------------------------------------------------------------------------
+Q.4. Observe the result of running this SQL command to show the name, continent and population of all countries.
+
+Ans.SELECT name, continent, population FROM world
+
+----------------------------------------------------------------------------------------------------------------------------------------
+Q.5.Show the name for the countries that have a population of at least 200 million. 200 million is 200000000, there are eight zeros.
+
+Ans.SELECT name FROM world
+WHERE population >= 200000000
+
+-----------------------------------------------------------------------------------------------------------------------------------------
+Q.6.Give the name and the per capita GDP for those countries with a population of at least 200 million.
+
+Ans.select name,gdp/population from world where population >200000000
+
+-----------------------------------------------------------------------------------------------------------------------------------------
+Q.7.Show the name and population in millions for the countries of the continent 'South America'. 
+Divide the population by 1000000 to get population in millions.
+
+Ans.select name, population /1000000 from world where continent = 'south america'
+
+------------------------------------------------------------------------------------------------------------------------------------------
+Q.8.Show the name and population for France, Germany, Italy.
+
+Ans.select name,population from world where name in('france','germany','italy')
+
+-------------------------------------------------------------------------------------------------------------------------------------------
+Q.9.Show the countries which have a name that includes the word 'United'.
+
+Ans.select name from world where name like '%united%'
+
+--------------------------------------------------------------------------------------------------------------------------------------------
+Q.10.Two ways to be big: A country is big if it has an area of more than 3 million sq km or 
+it has a population of more than 250 million.Show the countries that are big by area or big by population. 
+Show name, population and area.
+
+Ans.select name, population, area from world where area >3000000 or population >250000000 
+
+-------------------------------------------------------------------------------------------------------------------------------------------
+Q.11.Exclusive OR (XOR). Show the countries that are big by area (more than 3 million) or 
+big by population (more than 250 million) but not both. Show name, population and area.
+
+Australia has a big area but a small population, it should be included.
+Indonesia has a big population but a small area, it should be included.
+China has a big population and big area, it should be excluded.
+United Kingdom has a small population and a small area, it should be excluded.
+
+Ans.SELECT name, population,area
+ FROM world
+  WHERE(population>250000000 OR area>3000000)AND NOT(population>250000000 AND area>3000000);
+
+------------------------------------------------------------------------------------------------------------------------------------------
+Q.12.Show the name and population in millions and the GDP in billions for the countries of the continent 'South America'. 
+Use the ROUND function to show the values to two decimal places.
+For Americas show population in millions and GDP in billions both to 2 decimal places.
+
+Ans.SELECT name, ROUND(population/1000000,2), ROUND(gdp/1000000000, 2)
+FROM world
+WHERE continent = 'South America'
+
+-------------------------------------------------------------------------------------------------------------------------------------------
+Q.13.Show the name and per-capita GDP for those countries with a GDP of at least one trillion (1000000000000; 
+that is 12 zeros). Round this value to the nearest 1000.
+Show per-capita GDP for the trillion dollar countries to the nearest $1000.
+
+Ans.Select name, round(gdp/population,-3) from world where gdp >1000000000000.
+
+--------------------------------------------------------------------------------------------------------------------------------------------
+Q.14
+Greece has capital Athens.
+Each of the strings 'Greece', and 'Athens' has 6 characters.
+Show the name and capital where the name and the capital have the same number of characters.
+You can use the LENGTH function to find the number of characters in a string
+
+Ans.SELECT name, capital
+  FROM world WHERE  LENGTH(name)=LENGTH(capital)
+
+---------------------------------------------------------------------------------------------------------------------------------------------
+Q.15.The capital of Sweden is Stockholm. Both words start with the letter 'S'.
+Show the name and the capital where the first letters of each match. Don't include countries where the name and the capital are the same word.
+You can use the function LEFT to isolate the first character.
+You can use <> as the NOT EQUALS operator.
+
+Ans.SELECT name, capital FROM world
+WHERE LEFT(name, 1) = LEFT(capital, 1) XOR name = capital
+
+----------------------------------------------------------------------------------------------------------------------------------------------
+Q.16.Equatorial Guinea and Dominican Republic have all of the vowels (a e i o u) in the name.
+They don't count because they have more than one word in the name.
+Find the country that has all the vowels and no spaces in its name.
+You can use the phrase name NOT LIKE '%a%' to exclude characters from your results.
+The query shown misses countries like Bahamas and Belarus because they contain at least one 'a'
+
+Ans.SELECT name FROM world
+WHERE name LIKE '%a%' AND name LIKE '%e%' AND name LIKE '%i%' AND name LIKE '%o%' AND name LIKE '%u%' AND name NOT LIKE '% %';
+
+--------------------------------------------------------------------------------------------------------------------------------------------------
+Q.17.Change the query shown so that it displays Nobel prizes for 1950.
+
+Ans.SELECT yr, subject, winner
+  FROM nobel WHERE yr = 1950
+
+-------------------------------------------------------------------------------------------------------------------------------------------------
+Q.18.Show who won the 1962 prize for literature.
+
+Ans.SELECT winner
+  FROM nobel WHERE yr = 1962 AND subject = 'literature'
+
+-----------------------------------------------------------------------------------------------------------------------------------------------------
+Q.19.Show the year and subject that won 'Albert Einstein' his prize.
+
+Ans.SELECT yr, subject, winner
+  FROM nobel
+ WHERE yr = 1950; 
+
+-----------------------------------------------------------------------------------------------------------------------------------------------------
+Q.20.Give the name of the 'peace' winners since the year 2000, including 2000.
+
+Ans.SELECT winner winner_peace
+FROM nobel
+WHERE subject = 'Peace'
+AND yr >= 2000
+
+------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+
+
+
+
+
