@@ -1,0 +1,61 @@
+-- Q1 How many movies a user has worked
+   -- Actor and film_actor table
+    -- Number of movies should me more than 3
+use sakila;
+show tables from sakila;
+desc actor;
+desc film_actor;
+select actor.actor_id, actor.first_name, actor.last_name, count(film_actor.film_id) as num_movies
+from actor
+join film_actor on actor.actor_id = film_actor.actor_id
+group by actor.actor_id, actor.first_name, actor.last_name
+having COUNT(film_actor.film_id) > 3;
+
+-- Q2 Get all the information of user with the maximum and minium salary
+-- (id , name, email, salary)
+
+use employees;
+show tables from employees;
+desc salaries;
+select * from salaries;
+select * from employees;
+select * from salaries where 
+salary =(select max(salary) from salaries) or 
+salary =(select min(salary) from salaries);
+
+-- Q3 Calculating the total population where the total population should be more
+-- than 1000  and there should be more than 2 city in each code
+use world;
+show tables from world;
+select * from city;
+select * from country;
+select CountryCode, count(CountryCode) as totalcode, sum(population) from city group by  CountryCode
+having sum(population)>1000 and totalcode;
+
+-- Q4 Finding all the countrycode where
+-- the number of city in each countrycode should be greater than all the
+-- city present in each country code afg nld are bdg  ( use country table)
+
+select * from city; 
+select contrycode;
+select countryCode from city group by countryCode 
+having count(Name) >=any(select count(Name) from city where countryCode in('ARE',' BGD' ,'NLD' ,'AFG') group by countryCode);
+
+-- Q5 Create a table with  id, name, salary, dept
+-- insert all the data for all the column value
+-- Get the id, salary and the salary_percent of every employee where salary_percent should be percentage with employee_id 2;
+
+create table emp01(emp_id int,emp_name varchar(50),emp_salary int, emp_dpt varchar(50));
+select * from emp01;
+insert into emp01 values(1,'varun',40000,'HR');
+insert into emp01 values(2,'yash',35000,'Production');
+insert into emp01 value(3,'vaibhav','70000','I-T');
+
+SELECT
+    emp_id,emp_salary,
+    (emp_salary / (SELECT emp_salary FROM emp01 WHERE emp_id = 2)) * 100 AS salary_percent
+FROM emp01;
+
+-- Q6 use salaries table
+-- find out the the max, sum, avg salary for each person in every month  from the from_date column
+-- that should have the to_date year to be before 1999
